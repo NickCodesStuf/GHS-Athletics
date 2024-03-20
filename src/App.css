@@ -24,7 +24,12 @@
   color: #888;
 }
 
+.hidden{
+  display: none;
+}
+
 section {
   padding: 2rem;
   min-height: 500px;
+  border: white solid;
 }
