@@ -11,6 +11,9 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  --nav-size: 60px;
+  --speed: 500ms;
 }
 
 a {
@@ -63,4 +66,72 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+}
+
+.navbar {
+  height: var(--nav-size);
+  background-color: #535bf2;
+  padding: 0 1rem;
+  border-bottom: white solid;
+}
+
+.navbar-nav{
+  max-width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.nav-item {
+  width: calc(var(--nav-size) * 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-button {
+  --button-size: calc(var(--nav-size) * 0.8);
+  width: var(--button-size);
+  height: var(--button-size);
+  background-color: #f9f9f9;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dropdown {
+  position: absolute;
+  top: 58px;
+  width: 300px;
+  transform: translateX(-45%);
+  background-color: #213547;
+  padding: 1rem;
+  overflow: hidden;
+}
+
+.menu-item {
+  height: 50px;
+  display: flex;
+  align-items: center;
+  padding: 0.5rem;
+}
+
+.menu-item:hover {
+  background-color: #535bf2;
+}
+
+.dropdown-primary-enter {
+  opacity: 0;
+}
+.dropdown-primary-enter-active {
+  opacity: 1;
+  transition: opacity 1000ms;
+}
+.dropdown-primary-exit {
+  opacity: 1;
+}
+.dropdown-primary-exit-active {
+  opacity: 0;
+  transition: opacity 1000ms;
 }

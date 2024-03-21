@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { DO_NOT_USE_OR_YOU_WILL_BE_FIRED_EXPERIMENTAL_FORM_ACTIONS, useRef, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
@@ -6,8 +6,11 @@ import ExpandableSection from './ExpandableSection'
 import { CSSTransition } from 'react-transition-group';
 
 function App() {
+
+  //CollapsableSections!
   // this code is ugly, and is not procedural, but it does not matter!
   const [elementState, setElementState] = useState([1, 1, 1, 1, 1, 1]);
+  const [openDropDown, setDropDownOpen] = useState(false);
 
   const aboutWidget = <section onClick={() => openWidget(0)}>This will talk about Tennis in general</section>
   const enrollWidget = <section onClick={() => openWidget(1)}>This will talk about Joining tennis for new players</section>
@@ -22,8 +25,53 @@ function App() {
     setElementState([...states])// do not forget to copy the values
   }
 
+  //Navbar
+  function Navbar({children}:{children?:React.ReactNode}){
+    return(
+      <nav className='navbar'>
+        <ul className='navbar-nav'>
+          { children }
+        </ul>
+      </nav>
+    )
+  }
+  
+  function NavItem({icon, children}:{icon?:any, children?:React.ReactNode}){
+    return(
+      <li className='nav-item'>
+        <a href='#' className='icon-button' onClick={() => setDropDownOpen(!openDropDown)}>
+          { icon }
+        </a>
+        {openDropDown && children}
+      </li>
+    )
+  }
+  
+  function DropDownMenu(){
+    const nodeRef = useRef(null);
+    function DropdownItem({children, link}:{children?:React.ReactNode, link?:number}){
+      return(
+        <a onClick={() => link && openWidget(link)} className="menu-item">
+          { children }
+      </a>
+      )
+    }
+    return(
+      <CSSTransition nodeRef={nodeRef} in={openDropDown} unmountOnExit timeout={1000} classNames="dropdown-primary">
+        <div className='dropdown'>
+          <DropdownItem link={1}>About</DropdownItem>
+        </div>
+      </CSSTransition>
+    )
+  }
+
   return (
     <>
+    <Navbar>
+      <NavItem icon='👋'>
+        <DropDownMenu></DropDownMenu>
+      </NavItem>
+    </Navbar>
     {/* About/Landing image */}
       <CSSTransition in={elementState[0] === 0} unmountOnExit timeout={500} classNames="widgets">
         <ExpandableSection preview={aboutWidget} state={elementState[0]}>
