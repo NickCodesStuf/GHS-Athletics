@@ -1,14 +1,8 @@
 #root {
-  margin: 0 auto;
+  margin: 0 0;
+  width: 100vw;
   text-align: center;
-  --speed: 500ms;
-}
-
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
+  --speed: 300ms;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -17,13 +11,6 @@
   }
 }
 
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
-}
 
 .hidden{
   display: none;
@@ -31,8 +18,16 @@
 
 section {
   padding: 2rem;
-  min-height: 500px;
-  border: white solid;
+}
+
+.about-widget{
+  height: 90vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.9) ), url('https://static.wixstatic.com/media/5d9aa3_0d6f682c9ab94184a9d9282368a158a7~mv2.jpg/v1/fill/w_1272,h_923,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/5d9aa3_0d6f682c9ab94184a9d9282368a158a7~mv2.jpg');
+  background-position: 54% 19%;
 }
 
 .my-node-enter {
@@ -50,6 +45,14 @@ section {
   transition: opacity var(--speed);
 }
 
+.nav-menu-button{
+  border-left: white solid;
+  height: 3rem;
+  width: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
 .article-load-enter {
   opacity: 0;

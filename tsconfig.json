@@ -20,6 +20,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src"],
+  "include": ["src", "vite-plugin-svgr/client"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
