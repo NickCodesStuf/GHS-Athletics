@@ -1,57 +1,74 @@
-import { useState } from 'react'
-import viteLogo from '/vite.svg'
+import React, { useState } from 'react'
 import './App.css'
-import ExpandableSection from './ExpandableSection'
-import { CSSTransition } from 'react-transition-group';
+// import ExpandableSection from './ExpandableSection'
 import NavBar from './NavBar'
+import { CSSTransition } from 'react-transition-group';
+
+const ANIMATION_PERIOD = 500;
 
 function App() {
-  // this code is ugly, and is not procedural, but it does not matter!
-  const [elementState, setElementState] = useState([1, 1, 1, 1, 1, 1]);
+  const [visibleWidgets, setVisibleWidgets] = useState([true]);
+  const [expandedWidgets, setExpandedWidgets] = useState([true])
 
-  const aboutWidget = <section onClick={() => openWidget(0)}>This will talk about Tennis in general</section>
-  const enrollWidget = <section onClick={() => openWidget(1)}>This will talk about Joining tennis for new players</section>
-  const bulletinWidget = <section onClick={() => openWidget(2)}>Information regarding upcoming events</section>
-  const parentsWidget = <section onClick={() => openWidget(3)}>Information relavent to parents</section>
-  const studentsWidget = <section onClick={() => openWidget(4)}>Information relavent to current students</section>
-  const contactWidget = <section onClick={() => openWidget(5)}>Contact Information</section>
+  const aboutWidget = <section className='about-widget' onClick={() => openWidget(0)}>Garland High Tennis</section>
+  const enrollWidget = <section onClick={() => openWidget(1)}>Enroll Today</section>
+  const bulletinWidget = <section onClick={() => openWidget(2)}>News Bulletin</section>
+
 
   function openWidget(index: number){
-    const states = [0, 0, 0, 0, 0, 0]
-    states[index] = 2
-    setElementState([...states])// do not forget to copy the values
+    if (index === -1){
+      setExpandedWidgets([false, false, false])
+      setTimeout(()=>{setVisibleWidgets([true, true, true])}, ANIMATION_PERIOD)
+    } else {
+      const openState = [false, false, false];
+      openState[index] = true;
+      setVisibleWidgets([...openState])// do not forget to copy the values
+      setTimeout(()=>{setExpandedWidgets([...openState])}, ANIMATION_PERIOD)
+    }
   }
 
-  return (
+  return(
     <>
-    {/* About/Landing image */}
       <NavBar openWidget={openWidget}></NavBar>
-      <CSSTransition in={elementState[0] === 0} unmountOnExit timeout={500} classNames="widgets">
-        <ExpandableSection preview={aboutWidget} state={elementState[0]}>
-          <section>Extra content!!</section>
+      <CSSTransition in={visibleWidgets[0]} classNames="my-node" unmountOnExit onExit={()=>{console.log("Exiting!")}} timeout={ANIMATION_PERIOD}>
+        <ExpandableSection widget={aboutWidget} visible={visibleWidgets[0]}>
+          <CSSTransition in={expandedWidgets[0]} classNames="my-node" unmountOnExit onEnter={()=>{console.log("Expanding!")}} timeout={ANIMATION_PERIOD}>
+            <article>
+              <section>I like nerds</section>
+              <section>I am a nerd</section>
+            </article>
+          </CSSTransition>
         </ExpandableSection>
       </CSSTransition>
-      {/* Enroll */}
-      <ExpandableSection preview={enrollWidget} state={elementState[1]}>
-        <section>Extra content!!</section>
-      </ExpandableSection>
-      {/* Bulletin */}
-      <ExpandableSection preview={bulletinWidget} state={elementState[2]}>
-        <section>Extra content!!</section>
-      </ExpandableSection>
-      {/* For Parents */}
-      <ExpandableSection preview={parentsWidget} state={elementState[3]}>
-        <section>Extra content!!</section>
-      </ExpandableSection>
-      {/* For Students */}
-      <ExpandableSection preview={studentsWidget} state={elementState[4]}>
-        <section>Extra content!!</section>
-      </ExpandableSection>
-      {/* Contact Us */}
-      <ExpandableSection preview={contactWidget} state={elementState[5]}>
-        <section>Extra content!!</section>
-      </ExpandableSection>
+      <CSSTransition in={visibleWidgets[1]} classNames="my-node" unmountOnExit onExit={()=>{console.log("Exiting!")}} timeout={ANIMATION_PERIOD}>
+        <ExpandableSection widget={enrollWidget} visible={visibleWidgets[1]}>
+          <CSSTransition in={expandedWidgets[1]} classNames="my-node" unmountOnExit onEnter={()=>{console.log("Expanding!")}} timeout={ANIMATION_PERIOD}>
+            <article>
+              <section>Join Tennis</section>
+              <section>Tennis is great</section>
+            </article>
+          </CSSTransition>
+        </ExpandableSection>
+      </CSSTransition>
+      <CSSTransition in={visibleWidgets[2]} classNames="my-node" unmountOnExit onExit={()=>{console.log("Exiting!")}} timeout={ANIMATION_PERIOD}>
+        <ExpandableSection widget={bulletinWidget} visible={visibleWidgets[2]}>
+          <CSSTransition in={expandedWidgets[2]} classNames="my-node" unmountOnExit onEnter={()=>{console.log("Expanding!")}} timeout={ANIMATION_PERIOD}>
+            <article>
+              <section>itz tournament day my dudes</section>
+            </article>
+          </CSSTransition>
+        </ExpandableSection>
+      </CSSTransition>
     </>
+  )
+}
+
+function ExpandableSection({widget, children}:{widget: React.ReactNode, children?: React.ReactNode, visible: boolean}){
+  return(
+    <div className='my-node'>
+      { widget }
+      { children }
+    </div>
   )
 }
 

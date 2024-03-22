@@ -1,5 +1,5 @@
 import reactLogo from './assets/react.svg'
-
+import homeIcon from './assets/homeIcon.svg'
 
 export default function NavBar({openWidget}:{openWidget:any}){
     function NavLink({index, openWidget, children}:{children?:React.ReactNode, index: number, openWidget:any}){
@@ -13,11 +13,11 @@ export default function NavBar({openWidget}:{openWidget:any}){
     }
     return(
       <nav>
-        <NavLink index={1} openWidget={openWidget}>About</NavLink>
-        <NavLink index={2} openWidget={openWidget}>Enroll</NavLink>
-        <NavLink index={3} openWidget={openWidget}>Bulletin</NavLink>
-        <NavLink index={4} openWidget={openWidget}>
-          <img src={reactLogo}></img>
+        <NavLink index={0} openWidget={openWidget}>About</NavLink>
+        <NavLink index={1} openWidget={openWidget}>Enroll</NavLink>
+        <NavLink index={2} openWidget={openWidget}>Bulletin</NavLink>
+        <NavLink index={-1} openWidget={openWidget}>
+          <img src={homeIcon}></img>
         </NavLink>
       </nav>
     )
