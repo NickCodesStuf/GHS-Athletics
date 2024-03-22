@@ -2,6 +2,7 @@
   margin: 0;
   min-width: 100%;
   text-align: center;
+  --speed: 200ms;
 }
 
 .logo {
@@ -43,6 +44,7 @@ nav{
   user-select: none ;
 }
 
+\
 .nav-icon{
   transform: skew(-20deg);
   min-width: 3rem;
@@ -56,7 +58,6 @@ nav{
 
 .nav-link:hover{
   background-color: yellow;
-}
 
 .my-node-enter {
   opacity: 0;
