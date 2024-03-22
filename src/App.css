@@ -1,6 +1,7 @@
 #root {
   margin: 0 auto;
   text-align: center;
+  --speed: 500ms;
 }
 
 .logo {
@@ -32,4 +33,35 @@ section {
   padding: 2rem;
   min-height: 500px;
   border: white solid;
+}
+
+.my-node-enter {
+  opacity: 0;
+}
+.my-node-enter-active {
+  opacity: 1;
+  transition: opacity var(--speed);
+}
+.my-node-exit {
+  opacity: 1;
+}
+.my-node-exit-active {
+  opacity: 0;
+  transition: opacity var(--speed);
+}
+
+
+.article-load-enter {
+  opacity: 0;
+}
+.article-load-enter-active {
+  opacity: 1;
+  transition: opacity var(--speed);
+}
+.article-load-exit {
+  opacity: 1;
+}
+.article-load-exit-active {
+  opacity: 0;
+  transition: opacity var(--speed);
 }

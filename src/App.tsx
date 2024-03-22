@@ -1,57 +1,67 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
-import ExpandableSection from './ExpandableSection'
 import { CSSTransition } from 'react-transition-group';
 
+const ANIMATION_PERIOD = 1000;
+
 function App() {
-  // this code is ugly, and is not procedural, but it does not matter!
-  const [elementState, setElementState] = useState([1, 1, 1, 1, 1, 1]);
+  const [openProps, setOpenProps] = useState([true, true, true]);
+  const [expandedProps, setExpandedProps] = useState([false, false, false])
 
-  const aboutWidget = <section onClick={() => openWidget(0)}>This will talk about Tennis in general</section>
-  const enrollWidget = <section onClick={() => openWidget(1)}>This will talk about Joining tennis for new players</section>
-  const bulletinWidget = <section onClick={() => openWidget(2)}>Information regarding upcoming events</section>
-  const parentsWidget = <section onClick={() => openWidget(3)}>Information relavent to parents</section>
-  const studentsWidget = <section onClick={() => openWidget(4)}>Information relavent to current students</section>
-  const contactWidget = <section onClick={() => openWidget(5)}>Contact Information</section>
-
-  function openWidget(index: number){
-    const states = [0, 0, 0, 0, 0, 0]
-    states[index] = 2
-    setElementState([...states])// do not forget to copy the values
+  function openProp(index:number){
+    const temp = [false, false, false]
+    temp[index] = true
+    console.log("Open Prop")
+    setOpenProps([...temp])
+    setTimeout(() => {setExpandedProps([...temp])}, ANIMATION_PERIOD);
   }
 
+  function closeProp(){
+    console.log("Close Prop")
+    setExpandedProps([false, false, false]);
+    setTimeout(() => {setOpenProps([true, true, true])}, ANIMATION_PERIOD);
+  }
+
+  function ExpandableSection({expanded, children, widget}: {expanded: boolean, children?:React.ReactNode, widget?:React.ReactNode}){
+    return(
+      <>
+        <div className='widget-element'>{widget}</div>
+        <CSSTransition in={expanded} unmountOnExit timeout={ANIMATION_PERIOD} classNames="article-load">
+          <article onClick={() => closeProp()}>{children}</article>
+        </CSSTransition>
+      </>
+    )
+  }
+
+  const aboutWidget = <section onClick={() => openProp(0)}>About</section>
+  
   return (
-    <>
-    {/* About/Landing image */}
-      <CSSTransition in={elementState[0] === 0} unmountOnExit timeout={500} classNames="widgets">
-        <ExpandableSection preview={aboutWidget} state={elementState[0]}>
-          <section>Extra content!!</section>
-        </ExpandableSection>
-      </CSSTransition>
-      {/* Enroll */}
-      <ExpandableSection preview={enrollWidget} state={elementState[1]}>
-        <section>Extra content!!</section>
-      </ExpandableSection>
-      {/* Bulletin */}
-      <ExpandableSection preview={bulletinWidget} state={elementState[2]}>
-        <section>Extra content!!</section>
-      </ExpandableSection>
-      {/* For Parents */}
-      <ExpandableSection preview={parentsWidget} state={elementState[3]}>
-        <section>Extra content!!</section>
-      </ExpandableSection>
-      {/* For Students */}
-      <ExpandableSection preview={studentsWidget} state={elementState[4]}>
-        <section>Extra content!!</section>
-      </ExpandableSection>
-      {/* Contact Us */}
-      <ExpandableSection preview={contactWidget} state={elementState[5]}>
-        <section>Extra content!!</section>
-      </ExpandableSection>
-    </>
-  )
+    <div>
+        {/* About */}
+        <CSSTransition in={openProps[0]} unmountOnExit timeout={ANIMATION_PERIOD} classNames="my-node">
+          <div>
+            <ExpandableSection expanded={expandedProps[0]} widget={aboutWidget}>
+              <section>Here we talk more about the tennis program</section>
+            </ExpandableSection>
+          </div>
+        </CSSTransition>
+        {/* Enroll */}
+        <CSSTransition in={openProps[1]} unmountOnExit timeout={ANIMATION_PERIOD} classNames="my-node">
+          <div onClick={() => {openProp(1)}}>
+            <p>Enroll Section</p>
+          </div>
+        </CSSTransition>
+        {/* Bulletin */}
+        <CSSTransition in={openProps[2]} unmountOnExit timeout={ANIMATION_PERIOD} classNames="my-node">
+          <div onClick={() => {openProp(2)}}>
+            <p>Boo!</p>
+          </div>
+        </CSSTransition>
+        {/* For Parents */}
+        {/* For Students */}
+        {/* Contact Us */}
+    </div>
+  );
 }
 
 export default App
