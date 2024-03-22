@@ -1,67 +1,75 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import './App.css'
+// import ExpandableSection from './ExpandableSection'
+import NavBar from './NavBar'
 import { CSSTransition } from 'react-transition-group';
 
-const ANIMATION_PERIOD = 1000;
+const ANIMATION_PERIOD = 500;
 
 function App() {
-  const [openProps, setOpenProps] = useState([true, true, true]);
-  const [expandedProps, setExpandedProps] = useState([false, false, false])
+  const [visibleWidgets, setVisibleWidgets] = useState([true]);
+  const [expandedWidgets, setExpandedWidgets] = useState([true])
 
-  function openProp(index:number){
-    const temp = [false, false, false]
-    temp[index] = true
-    console.log("Open Prop")
-    setOpenProps([...temp])
-    setTimeout(() => {setExpandedProps([...temp])}, ANIMATION_PERIOD);
+  const aboutWidget = <section className='about-widget' onClick={() => openWidget(0)}>Garland High Tennis</section>
+  const enrollWidget = <section onClick={() => openWidget(1)}>Enroll Today</section>
+  const bulletinWidget = <section onClick={() => openWidget(2)}>News Bulletin</section>
+
+
+  function openWidget(index: number){
+    if (index === -1){
+      setExpandedWidgets([false, false, false])
+      setTimeout(()=>{setVisibleWidgets([true, true, true])}, ANIMATION_PERIOD)
+    } else {
+      const openState = [false, false, false];
+      openState[index] = true;
+      setVisibleWidgets([...openState])// do not forget to copy the values
+      setTimeout(()=>{setExpandedWidgets([...openState])}, ANIMATION_PERIOD)
+    }
   }
 
-  function closeProp(){
-    console.log("Close Prop")
-    setExpandedProps([false, false, false]);
-    setTimeout(() => {setOpenProps([true, true, true])}, ANIMATION_PERIOD);
-  }
+  return(
+    <>
+      <NavBar openWidget={openWidget}></NavBar>
+      <CSSTransition in={visibleWidgets[0]} classNames="my-node" unmountOnExit onExit={()=>{console.log("Exiting!")}} timeout={ANIMATION_PERIOD}>
+        <ExpandableSection widget={aboutWidget} visible={visibleWidgets[0]}>
+          <CSSTransition in={expandedWidgets[0]} classNames="my-node" unmountOnExit onEnter={()=>{console.log("Expanding!")}} timeout={ANIMATION_PERIOD}>
+            <article>
+              <section>I like nerds</section>
+              <section>I am a nerd</section>
+            </article>
+          </CSSTransition>
+        </ExpandableSection>
+      </CSSTransition>
+      <CSSTransition in={visibleWidgets[1]} classNames="my-node" unmountOnExit onExit={()=>{console.log("Exiting!")}} timeout={ANIMATION_PERIOD}>
+        <ExpandableSection widget={enrollWidget} visible={visibleWidgets[1]}>
+          <CSSTransition in={expandedWidgets[1]} classNames="my-node" unmountOnExit onEnter={()=>{console.log("Expanding!")}} timeout={ANIMATION_PERIOD}>
+            <article>
+              <section>Join Tennis</section>
+              <section>Tennis is great</section>
+            </article>
+          </CSSTransition>
+        </ExpandableSection>
+      </CSSTransition>
+      <CSSTransition in={visibleWidgets[2]} classNames="my-node" unmountOnExit onExit={()=>{console.log("Exiting!")}} timeout={ANIMATION_PERIOD}>
+        <ExpandableSection widget={bulletinWidget} visible={visibleWidgets[2]}>
+          <CSSTransition in={expandedWidgets[2]} classNames="my-node" unmountOnExit onEnter={()=>{console.log("Expanding!")}} timeout={ANIMATION_PERIOD}>
+            <article>
+              <section>itz tournament day my dudes</section>
+            </article>
+          </CSSTransition>
+        </ExpandableSection>
+      </CSSTransition>
+    </>
+  )
+}
 
-  function ExpandableSection({expanded, children, widget}: {expanded: boolean, children?:React.ReactNode, widget?:React.ReactNode}){
-    return(
-      <>
-        <div className='widget-element'>{widget}</div>
-        <CSSTransition in={expanded} unmountOnExit timeout={ANIMATION_PERIOD} classNames="article-load">
-          <article onClick={() => closeProp()}>{children}</article>
-        </CSSTransition>
-      </>
-    )
-  }
-
-  const aboutWidget = <section onClick={() => openProp(0)}>About</section>
-  
-  return (
-    <div>
-        {/* About */}
-        <CSSTransition in={openProps[0]} unmountOnExit timeout={ANIMATION_PERIOD} classNames="my-node">
-          <div>
-            <ExpandableSection expanded={expandedProps[0]} widget={aboutWidget}>
-              <section>Here we talk more about the tennis program</section>
-            </ExpandableSection>
-          </div>
-        </CSSTransition>
-        {/* Enroll */}
-        <CSSTransition in={openProps[1]} unmountOnExit timeout={ANIMATION_PERIOD} classNames="my-node">
-          <div onClick={() => {openProp(1)}}>
-            <p>Enroll Section</p>
-          </div>
-        </CSSTransition>
-        {/* Bulletin */}
-        <CSSTransition in={openProps[2]} unmountOnExit timeout={ANIMATION_PERIOD} classNames="my-node">
-          <div onClick={() => {openProp(2)}}>
-            <p>Boo!</p>
-          </div>
-        </CSSTransition>
-        {/* For Parents */}
-        {/* For Students */}
-        {/* Contact Us */}
+function ExpandableSection({widget, children}:{widget: React.ReactNode, children?: React.ReactNode, visible: boolean}){
+  return(
+    <div className='my-node'>
+      { widget }
+      { children }
     </div>
-  );
+  )
 }
 
 export default App

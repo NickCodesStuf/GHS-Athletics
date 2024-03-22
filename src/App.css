@@ -1,7 +1,8 @@
 #root {
-  margin: 0 auto;
+  margin: 0;
+  min-width: 100%;
   text-align: center;
-  --speed: 500ms;
+  --speed: 200ms;
 }
 
 .logo {
@@ -17,51 +18,65 @@
   }
 }
 
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
-}
-
-.hidden{
-  display: none;
-}
-
 section {
   padding: 2rem;
   min-height: 500px;
   border: white solid;
 }
 
+nav{
+  position: fixed;
+  top: 2rem;
+  height: 3rem;
+  left: -1rem;
+  background-color: rgba(0, 0, 0, 0.6);
+  transform: skew(20deg);
+  backdrop-filter: blur(5px);
+  width: 75vw;
+  display: flex;
+  justify-content: right;
+  align-items: center;
+}
+
+.nav-link{
+  min-width: 3rem;
+  border-left: white solid;
+  user-select: none ;
+}
+
+\
+.nav-icon{
+  transform: skew(-20deg);
+  min-width: 3rem;
+  height: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+
+.nav-link:hover{
+  background-color: yellow;
+
 .my-node-enter {
   opacity: 0;
 }
 .my-node-enter-active {
   opacity: 1;
-  transition: opacity var(--speed);
+  transition: opacity 200ms;
 }
 .my-node-exit {
   opacity: 1;
 }
 .my-node-exit-active {
   opacity: 0;
-  transition: opacity var(--speed);
+  transition: opacity 200ms;
 }
 
-
-.article-load-enter {
-  opacity: 0;
-}
-.article-load-enter-active {
-  opacity: 1;
-  transition: opacity var(--speed);
-}
-.article-load-exit {
-  opacity: 1;
-}
-.article-load-exit-active {
-  opacity: 0;
-  transition: opacity var(--speed);
+.about-widget{
+  height: 90vh;
+  background: linear-gradient(rgba(0, 0, 0, .5), rgba(0, 0, 0, .8)), url("https://static.wixstatic.com/media/5d9aa3_0d6f682c9ab94184a9d9282368a158a7~mv2.jpg/v1/fill/w_490,h_923,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/5d9aa3_0d6f682c9ab94184a9d9282368a158a7~mv2.jpg");
+  background-size: cover;
+  background-position: 60% 18%;
 }
