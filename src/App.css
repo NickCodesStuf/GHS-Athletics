@@ -33,3 +33,38 @@ section {
   min-height: 500px;
   border: white solid;
 }
+
+nav{
+  position: fixed;
+  top: 2rem;
+  height: 3rem;
+  left: -1rem;
+  background-color: rgba(0, 0, 0, 0.6);
+  transform: skew(20deg);
+  backdrop-filter: blur(5px);
+  width: 75vw;
+  display: flex;
+  justify-content: right;
+  align-items: center;
+}
+
+.nav-link{
+  min-width: 3rem;
+  border-left: white solid;
+  user-select: none ;
+}
+
+.nav-icon{
+  transform: skew(-20deg);
+  min-width: 3rem;
+  height: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+
+.nav-link:hover{
+  background-color: yellow;
+}

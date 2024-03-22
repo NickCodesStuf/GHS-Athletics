@@ -1,9 +1,9 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 import ExpandableSection from './ExpandableSection'
 import { CSSTransition } from 'react-transition-group';
+import NavBar from './NavBar'
 
 function App() {
   // this code is ugly, and is not procedural, but it does not matter!
@@ -25,6 +25,7 @@ function App() {
   return (
     <>
     {/* About/Landing image */}
+      <NavBar openWidget={openWidget}></NavBar>
       <CSSTransition in={elementState[0] === 0} unmountOnExit timeout={500} classNames="widgets">
         <ExpandableSection preview={aboutWidget} state={elementState[0]}>
           <section>Extra content!!</section>
