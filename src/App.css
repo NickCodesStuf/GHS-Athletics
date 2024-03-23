@@ -12,15 +12,26 @@
   filter: brightness(90%);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
+/* this was unused but I added stuff to show how it works
+   uncomment to see what this does */
+/* @media (prefers-reduced-motion: no-preference) {
+  .logo {
+    animation: logo-spin infinite 200s linear;
   }
-}
+
+  @keyframes logo-spin {
+    0% {
+      transform: rotate(0);
+    }
+    100% {
+      transform: rotate(1turn);
+    }
+  }
+} */
 
 section {
   overflow: clip;
-  height: 500px;
+  height: max(500px, fit-content);
 }
 
 nav{
@@ -35,6 +46,7 @@ nav{
   display: flex;
   justify-content: right;
   align-items: center;
+  z-index: 4;
 }
 
 .nav-link{
@@ -44,7 +56,9 @@ nav{
   transition: all 1s;
 }
 
+/* 1 : The image is relatively dark so the text is bright, even in light theme */
 
+/* may be an icon or text */
 .nav-icon{
   transform: skew(-20deg);
   min-width: 3rem;
@@ -54,6 +68,19 @@ nav{
   align-items: center;
   padding-left: 0.5rem;
   padding-right: 0.5rem;
+  color: #b5b9ff; /* 1 */
+  transition: color 500ms;
+}
+
+/* I really like the hover and active effects (especially the gold color)
+   but it doesn't work on the home icon */
+.nav-icon:hover {
+  color: #e3e5ff; /* 1 */
+}
+
+.nav-icon:active {
+  color: gold;
+  transition: none;
 }
 
 .nav-link:hover{
@@ -76,13 +103,15 @@ nav{
 }
 
 .about-widget{
-  height: 90vh;
+  height: max(90vh, fit-content);
+  padding-bottom: 10vh;
   background: linear-gradient(rgba(0, 0, 0, .4), rgba(0, 0, 0, .9)), url("https://static.wixstatic.com/media/5d9aa3_0d6f682c9ab94184a9d9282368a158a7~mv2.jpg/v1/fill/w_490,h_923,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/5d9aa3_0d6f682c9ab94184a9d9282368a158a7~mv2.jpg");
   background-size: cover;
   background-position: 54% 19%;
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  color: white; /* 1 */
 }
 
 .enroll-widget{
@@ -99,6 +128,13 @@ nav{
 .quote-wrapper{
   display: flex;
   width: 90%;
+}
+
+/* the quotation is white, but in light theme the background is white */
+@media (prefers-color-scheme: light) {
+  .quotation {
+    filter: invert(90%); /* 1 */
+  }
 }
 
 .quotation{

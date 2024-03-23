@@ -10,9 +10,17 @@ import quotationMark from './assets/quotation-mark-svgrepo-com.svg';
 
 const ANIMATION_PERIOD = 500;
 
-function App() {
+export type FC<P> = React.FC<P & { children?: React.ReactNode }>
 
 
+function scrollToElement(id : string){
+  console.log(id)
+  const element = document.getElementById(id);
+  console.log(element);
+  element?.scrollIntoView({ block:"center", behavior: 'smooth'})
+}
+
+export default function App() {
   const [visibleWidgets, setVisibleWidgets] = useState([true]);
   const [expandedWidgets, setExpandedWidgets] = useState([true])
 
@@ -26,7 +34,7 @@ function App() {
       <img className="divider" src={line}></img>
       <div className='quote-wrapper'>
         <img className="quotation quotation-left" src={quotationMark}></img>
-        <p> Joining Tennis these days is easier than ever, there are just so many resources today!</p>
+        <p>Joining Tennis these days is easier than ever, there are just so many resources today!</p>
         <img className="quotation quotation-right" src={quotationMark}></img>
       </div>
     </div>
@@ -34,14 +42,10 @@ function App() {
   </section>
   const bulletinWidget = <section id="widget-2" onClick={() => openWidget(2)}>News Bulletin</section>
 
-  function scrollToElement(id : string){
-    console.log(id)
-    const element = document.getElementById(id);
-    console.log(element);
-    element?.scrollIntoView({ block:"center", behavior: 'smooth'})
-  }
-
   function openWidget(index: number){
+    // do not forget to copy the values (or actually just send a new array reference)
+
+    // Home index is -1
     if (index === -1){
       setExpandedWidgets([false, false, false])
       setTimeout(()=>{setVisibleWidgets([true, true, true])}, ANIMATION_PERIOD)
@@ -49,50 +53,40 @@ function App() {
       scrollToElement('widget-'+index);
       const openState = [false, false, false];
       openState[index] = true;
-      setVisibleWidgets([...openState])// do not forget to copy the values
-      setTimeout(()=>{setExpandedWidgets([...openState])}, ANIMATION_PERIOD)
+      setVisibleWidgets(openState)
+      setTimeout(()=>{setExpandedWidgets(openState)}, ANIMATION_PERIOD)
     }
   }
 
   return(
     <>
       <NavBar openWidget={openWidget}></NavBar>
-      <CSSTransition in={visibleWidgets[0]} classNames="my-node" unmountOnExit timeout={ANIMATION_PERIOD}>
-        <ExpandableSection widget={aboutWidget} visible={visibleWidgets[0]}>
-          <CSSTransition in={expandedWidgets[0]} classNames="my-node" unmountOnExit timeout={ANIMATION_PERIOD}>
-            <article>
-            </article>
-          </CSSTransition>
-        </ExpandableSection>
-      </CSSTransition>
-      <CSSTransition in={visibleWidgets[1]} classNames="my-node" unmountOnExit timeout={ANIMATION_PERIOD}>
-        <ExpandableSection widget={enrollWidget} visible={visibleWidgets[1]}>
-          <CSSTransition in={expandedWidgets[1]} classNames="my-node" unmountOnExit timeout={ANIMATION_PERIOD}>
-            <article>
-            </article>
-          </CSSTransition>
-        </ExpandableSection>
-      </CSSTransition>
-      <CSSTransition in={visibleWidgets[2]} classNames="my-node" unmountOnExit timeout={ANIMATION_PERIOD}>
-        <ExpandableSection widget={bulletinWidget} visible={visibleWidgets[2]}>
-          <CSSTransition in={expandedWidgets[2]} classNames="my-node" unmountOnExit timeout={ANIMATION_PERIOD}>
-            <article>
-              <section>itz tournament day my dudes</section>
-            </article>
-          </CSSTransition>
-        </ExpandableSection>
-      </CSSTransition>
+      <ExpandableSection visible={visibleWidgets[0]} expanded={expandedWidgets[0]} widget={aboutWidget}>
+        <article>
+        </article>
+      </ExpandableSection>
+      <ExpandableSection visible={visibleWidgets[1]} expanded={expandedWidgets[1]} widget={enrollWidget}>
+        <article>
+        </article>
+      </ExpandableSection>
+      <ExpandableSection visible={visibleWidgets[2]} expanded={expandedWidgets[2]} widget={bulletinWidget}>
+        <article>
+          <section>itz tournament day my dudes</section>
+        </article>
+      </ExpandableSection>
     </>
   )
 }
 
-function ExpandableSection({widget, children}:{widget: React.ReactNode, children?: React.ReactNode, visible: boolean}){
+const ExpandableSection: FC<{visible: boolean, expanded: boolean, widget: React.ReactNode}> = ({visible, expanded, widget, children}) => {
   return(
-    <div className='my-node'>
-      { widget }
-      { children }
-    </div>
+    <CSSTransition in={visible} classNames="my-node" unmountOnExit timeout={ANIMATION_PERIOD}>
+      <div className='my-node'>
+        {widget}
+        <CSSTransition in={expanded} classNames="my-node" unmountOnExit timeout={ANIMATION_PERIOD}>
+          {children}
+        </CSSTransition>
+      </div>
+    </CSSTransition>
   )
 }
-
-export default App
