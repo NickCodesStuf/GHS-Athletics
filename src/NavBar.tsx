@@ -16,6 +16,9 @@ export default function NavBar({openWidget}:{openWidget:any}){
         <NavLink index={0} openWidget={openWidget}>About</NavLink>
         <NavLink index={1} openWidget={openWidget}>Enroll</NavLink>
         <NavLink index={2} openWidget={openWidget}>Bulletin</NavLink>
+        <NavLink index={2} openWidget={openWidget}>For Parents</NavLink>
+        <NavLink index={2} openWidget={openWidget}>For Students</NavLink>
+        <NavLink index={2} openWidget={openWidget}>Contact Us</NavLink>
         <NavLink index={-1} openWidget={openWidget}>
           <img src={homeIcon}></img>
         </NavLink>
