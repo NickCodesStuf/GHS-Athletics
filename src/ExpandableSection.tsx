@@ -1,3 +1,4 @@
+// UNUSED
 import React from "react"
 
 function ExpandableSection({state, children, preview}: {state: number, children?:React.ReactNode, preview:React.ReactNode}){
@@ -38,7 +39,6 @@ function ExpandableSection({state, children, preview}: {state: number, children?
             </div>
         </>
     )
-    
 }
 
 export default ExpandableSection
